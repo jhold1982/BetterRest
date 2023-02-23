@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 	
-    @State private var wakeUp = defaultWakeTime
+	@State private var wakeUp = ContentView.defaultWakeTime
     @State private var sleepAmount = 8.0
     @State private var coffeeAmount = 1
 	@State private var resetSettings = true
@@ -99,8 +99,10 @@ struct ContentView: View {
 	
 	
 	
+	
+	
 	func reset() {
-		
+		wakeUp = ContentView.defaultWakeTime
 		sleepAmount = 8.0
 		coffeeAmount = 1
 		
