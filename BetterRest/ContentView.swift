@@ -53,20 +53,15 @@ struct ContentView: View {
 	]
     
     var body: some View {
-		
         NavigationStack {
-			
             Form {
-                
                 Section("When do you want to wake up?") {
                     DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
                         .labelsHidden()
                 }
-                
                 Section("How much sleep do you want?") {
                     Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
                 }
-                
                 Section("Daily coffee intake") {
                     Picker("Number of cups", selection: $coffeeAmount) {
                         ForEach(1..<11) {
@@ -74,10 +69,8 @@ struct ContentView: View {
                         }
                     }
                 }
-                
                 Text(sleepResults)
                     .font(.title3)
-				
 				Section("Fun facts about coffee!") {
 					let randomFacts = coffeeFunFacts.randomElement()
 					Text(randomFacts!)
@@ -86,26 +79,16 @@ struct ContentView: View {
             .navigationTitle("BetterRest")
 			.toolbar {
 				ToolbarItem(placement: .navigationBarTrailing) {
-					Button {
-						reset()
-					} label: {
-						Label("Reset", systemImage: "mug.fill")
-					}
+					Button("Reset", action: reset)
 					.padding()
 				}
 			}
         }
     }
-	
-	
-	
-	
-	
 	func reset() {
 		wakeUp = ContentView.defaultWakeTime
 		sleepAmount = 8.0
 		coffeeAmount = 1
-		
 	}
 }
 struct ContentView_Previews: PreviewProvider {
