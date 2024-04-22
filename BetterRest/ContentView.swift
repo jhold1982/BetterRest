@@ -4,23 +4,25 @@
 //
 //  Created by Justin Hold on 8/14/22.
 //
+
 import CoreML
 import SwiftUI
 
 struct ContentView: View {
 	
+	// MARK: - PROPERTIES
 	@State private var wakeUp = ContentView.defaultWakeTime
     @State private var sleepAmount = 8.0
     @State private var coffeeAmount = 1
-	@State private var resetSettings = true
+
     
+	// MARK: - COMPUTED PROPERTIES
     static var defaultWakeTime: Date {
         var components = DateComponents()
         components.hour = 7
         components.minute = 0
         return Calendar.current.date(from: components) ?? Date.now
     }
-    
     var sleepResults: String {
         do {
             let config = MLModelConfiguration()
@@ -39,7 +41,6 @@ struct ContentView: View {
             return "There was an error."
         }
     }
-	
 	var coffeeFunFacts = [
 		"Coffee has been around since 800 A.D.",
 		"Technically, coffee beans are seeds.",
@@ -52,16 +53,29 @@ struct ContentView: View {
 		"Norwegians drinks on an average 5 cups a day."
 	]
     
+	// MARK: - VIEW BODY
     var body: some View {
         NavigationStack {
             Form {
+				
                 Section("When do you want to wake up?") {
-                    DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
+					DatePicker(
+						"Please enter a time",
+						selection: $wakeUp,
+						displayedComponents: .hourAndMinute
+					)
+                        
                 }
+				
                 Section("How much sleep do you want?") {
-                    Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
+					Stepper(
+						"\(sleepAmount.formatted()) hours",
+						value: $sleepAmount,
+						in: 4...12,
+						step: 0.25
+					)
                 }
+				
                 Section("Daily coffee intake") {
                     Picker("Number of cups", selection: $coffeeAmount) {
                         ForEach(1..<11) {
@@ -69,8 +83,10 @@ struct ContentView: View {
                         }
                     }
                 }
+				
                 Text(sleepResults)
                     .font(.title3)
+				
 				Section("Fun facts about coffee!") {
 					let randomFacts = coffeeFunFacts.randomElement()
 					Text(randomFacts!)
@@ -85,12 +101,16 @@ struct ContentView: View {
 			}
         }
     }
+	
+	// MARK: - FUNCTIONS
+	/// Method to reset settings back to default
 	func reset() {
 		wakeUp = ContentView.defaultWakeTime
 		sleepAmount = 8.0
 		coffeeAmount = 1
 	}
 }
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
